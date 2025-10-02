@@ -1,4 +1,6 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
+<p align="center">
+  <img src="https://github.com/Aditya948351/Used-Images/blob/main/MargVedha-logo.png?raw=true" style="height:64px;"/>
+</p>
 
 # 🏛️ Reference Platforms \& Database Requirements for PM-AJAY GIA Beneficiary System
 

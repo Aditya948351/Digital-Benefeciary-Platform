@@ -1,0 +1,49 @@
+:root {
+    --color-saffron: #FF9933; /* Indian Saffron */
+    --color-green: #138808; /* Indian Green */
+    --color-navy: #000080; /* Navy Blue for text/accents */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #f0f9ff 100%);
+}
+
+/* Ashoka Chakra watermark effect using a centered pseudo-element */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px; /* Chakra size */
+    height: 200px;
+    transform: translate(-50%, -50%);
+    /* Inline SVG for Ashoka Chakra */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23000080' opacity='0.05' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM192 144a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm64 128a16 16 0 1 1 0 32 16 16 0 1 1 0-32zm-64 80a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zM256 64a192 192 0 1 1 0 384 192 192 0 1 1 0-384zm0 64a128 128 0 1 1 0 256 128 128 0 1 1 0-256zm0 32a96 96 0 1 1 0 192 96 96 0 1 1 0-192z'/%3E%3Csvg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none; /* Ensure it doesn't block clicks */
+    z-index: 0;
+}
+
+/* Styling for the active tab indicator (Tricolor accent bar) */
+.tab-indicator {
+    height: 4px;
+    width: 100%;
+    margin-top: 4px;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+}
+.tab-citizen.active .tab-indicator { background-image: linear-gradient(to right, var(--color-saffron), #ffffff, var(--color-green)); }
+.tab-office.active .tab-indicator { background: var(--color-navy); }
+.tab-admin.active .tab-indicator { background: var(--color-saffron); }
+
+/* Glowing Button Effect */
+.glow-button {
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 128, 0.5), 0 0 15px rgba(0, 0, 128, 0.2);
+}
+.glow-button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 128, 0.7), 0 0 20px rgba(0, 0, 128, 0.4);
+    transform: translateY(-1px);
+}

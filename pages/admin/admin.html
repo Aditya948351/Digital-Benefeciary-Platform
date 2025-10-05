@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM-AJAY Admin Portal | Central Command & Analytics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .admin-header {
+            background: linear-gradient(135deg, #263238 0%, #37474f 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #f44336;
+            border: 3px solid red;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .system-status {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .status-item {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            margin: 0 auto 5px;
+        }
+
+        /* Navigation */
+        .admin-nav {
+            background: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #f5f5f5;
+            color: #333;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 12px;
+            border: 2px solid transparent;
+        }
+
+        .nav-btn.active {
+            background: #1976d2;
+            color: white;
+        }
+
+        .nav-btn:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        /* Screen Container */
+        .screen {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #1976d2;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .module-icon {
+            font-size: 30px;
+            color: #1976d2;
+        }
+
+        .module-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .module-trend {
+            font-size: 14px;
+            color: #4caf50;
+        }
+
+        /* Master Data Management */
+        .mdm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .mdm-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #1976d2;
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        /* Analytics Dashboard */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-placeholder {
+            height: 250px;
+            background: #f5f5f5;
+            border: 3px solid red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* AI Insight Engine */
+        .insight-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .insight-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Fund Disbursal */
+        .fund-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .fund-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #4caf50;
+        }
+
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .data-table th {
+            background: #263238;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Integration Status */
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .integration-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .integration-status {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .integration-status.connected {
+            color: #4caf50;
+        }
+
+        .integration-status.warning {
+            color: #ff9800;
+        }
+
+        .integration-status.error {
+            color: #f44336;
+        }
+
+        /* System Alerts */
+        .alert-panel {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .alert-panel.critical {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .alert-panel.info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+        }
+
+        .btn-primary {
+            background: #1976d2;
+            color: white;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-item label {
+            font-weight: 600;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .filter-control {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                gap: 5px;
+            }
+
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">AD</div>
+                    <div>
+                        <h1>PM-AJAY Central Administration</h1>
+                        <p>Master Control & Analytics Dashboard</p>
+                    </div>
+                </div>
+                
+                <div class="admin-info">
+                    <strong>Dr. Rajesh Gupta</strong>
+                    <div>System Administrator</div>
+                    <div>Ministry of Social Justice & Empowerment</div>
+                    <div class="system-status">
+                        <div class="status-item">
+                            <div class="status-indicator"></div>
+                            <div>Database</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator"></div>
+                            <div>API Server</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator"></div>
+                            <div>AI Engine</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator"></div>
+                            <div>Integrations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="container">
+        <nav class="admin-nav">
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showScreen('dashboard')">Overview</button>
+                <button class="nav-btn" onclick="showScreen('mdm')">Master Data</button>
+                <button class="nav-btn" onclick="showScreen('analytics')">Analytics</button>
+                <button class="nav-btn" onclick="showScreen('ai-insights')">AI Insights</button>
+                <button class="nav-btn" onclick="showScreen('fund-disbursal')">Fund Disbursal</button>
+                <button class="nav-btn" onclick="showScreen('course-management')">Course Management</button>
+                <button class="nav-btn" onclick="showScreen('user-roles')">User Roles</button>
+                <button class="nav-btn" onclick="showScreen('integrations')">Integrations</button>
+                <button class="nav-btn" onclick="showScreen('reports')">Reports</button>
+                <button class="nav-btn" onclick="showScreen('alerts')">System Alerts</button>
+                <button class="nav-btn" onclick="showScreen('audit-log')">Audit Log</button>
+            </div>
+        </nav>
+
+        <!-- Dashboard Overview Screen -->
+        <div id="dashboard" class="screen active">
+            <h2 class="section-title">Central Administration Overview</h2>
+            
+            <div class="dashboard-grid">
+                <div class="module-card" onclick="showScreen('mdm')">
+                    <div class="module-header">
+                        <h3>Master Data Management (MDM)</h3>
+                        <div class="module-icon">🧩</div>
+                    </div>
+                    <div class="module-value">45,678</div>
+                    <div class="module-trend">Active Records</div>
+                    <p>Maintain database of states, officers, courses, and schemes</p>
+                    <p><strong>Outcome:</strong> Unified source of truth</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('analytics')">
+                    <div class="module-header">
+                        <h3>Beneficiary Analytics Dashboard</h3>
+                        <div class="module-icon">🧾</div>
+                    </div>
+                    <div class="module-value">3.2M</div>
+                    <div class="module-trend">Total Beneficiaries</div>
+                    <p>AI dashboards for gender, caste, region, income level</p>
+                    <p><strong>Outcome:</strong> National-level monitoring</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('ai-insights')">
+                    <div class="module-header">
+                        <h3>AI Insight Engine</h3>
+                        <div class="module-icon">🧠</div>
+                    </div>
+                    <div class="module-value">98.7%</div>
+                    <div class="module-trend">Detection Accuracy</div>
+                    <p>Detect duplicate beneficiaries, fraud detection, predictive impact</p>
+                    <p><strong>Outcome:</strong> Proactive policy optimization</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('fund-disbursal')">
+                    <div class="module-header">
+                        <h3>Fund Disbursal & Audit Trail</h3>
+                        <div class="module-icon">💳</div>
+                    </div>
+                    <div class="module-value">₹185 Cr</div>
+                    <div class="module-trend">Disbursed This Month</div>
+                    <p>Central control for release of GIA funds</p>
+                    <p><strong>Outcome:</strong> Full financial traceability</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('course-management')">
+                    <div class="module-header">
+                        <h3>Training & Course Management</h3>
+                        <div class="module-icon">📑</div>
+                    </div>
+                    <div class="module-value">247</div>
+                    <div class="module-trend">Active Courses</div>
+                    <p>Approve new courses, assign trainers/institutes</p>
+                    <p><strong>Outcome:</strong> Dynamic skill ecosystem</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('user-roles')">
+                    <div class="module-header">
+                        <h3>User Role Management</h3>
+                        <div class="module-icon">🔐</div>
+                    </div>
+                    <div class="module-value">1,247</div>
+                    <div class="module-trend">Active Users</div>
+                    <p>Create/edit roles for officers, enumerators, trainers</p>
+                    <p><strong>Outcome:</strong> Controlled access</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('integrations')">
+                    <div class="module-header">
+                        <h3>Integration API Layer</h3>
+                        <div class="module-icon">🛰️</div>
+                    </div>
+                    <div class="module-value">99.8%</div>
+                    <div class="module-trend">API Uptime</div>
+                    <p>Connect with UIDAI, NSDC, PFMS, PM-AJAY MIS</p>
+                    <p><strong>Outcome:</strong> End-to-end interoperability</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('reports')">
+                    <div class="module-header">
+                        <h3>Reports & Compliance</h3>
+                        <div class="module-icon">🕵️</div>
+                    </div>
+                    <div class="module-value">124</div>
+                    <div class="module-trend">Reports Generated</div>
+                    <p>Generate quarterly/annual reports for MoSJE</p>
+                    <p><strong>Outcome:</strong> Paperless governance</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('alerts')">
+                    <div class="module-header">
+                        <h3>System Alerts</h3>
+                        <div class="module-icon">⚠️</div>
+                    </div>
+                    <div class="module-value">23</div>
+                    <div class="module-trend">Active Alerts</div>
+                    <p>Fraud alerts, duplicate Aadhaar detection, inactive accounts</p>
+                    <p><strong>Outcome:</strong> Preventive control</p>
+                </div>
+
+                <div class="module-card" onclick="showScreen('audit-log')">
+                    <div class="module-header">
+                        <h3>Audit Logbook</h3>
+                        <div class="module-icon">🧾</div>
+                    </div>
+                    <div class="module-value">1.2M</div>
+                    <div class="module-trend">Logged Actions</div>
+                    <p>Every update/action logged</p>
+                    <p><strong>Outcome:</strong> Accountability & transparency</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Data Management Screen -->
+        <div id="mdm" class="screen">
+            <h2 class="section-title">Master Data Management (MDM)</h2>
+            
+            <div class="mdm-grid">
+                <div class="mdm-card">
+                    <div class="card-header">States & Districts Management</div>
+                    <div class="card-content">
+                        <p><strong>Total States:</strong> 29 + 8 UTs</p>
+                        <p><strong>Total Districts:</strong> 765</p>
+                        <p><strong>Active Centers:</strong> 2,847</p>
+                        <p><strong>Last Updated:</strong> Oct 5, 2025</p>
+                        <button class="btn btn-primary" onclick="manageStates()">Manage States</button>
+                        <button class="btn btn-success" onclick="addDistrict()">Add District</button>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Officers & Staff Database</div>
+                    <div class="card-content">
+                        <p><strong>Total Officers:</strong> 1,247</p>
+                        <p><strong>Field Enumerators:</strong> 3,890</p>
+                        <p><strong>Trainers/Instructors:</strong> 567</p>
+                        <p><strong>Admin Staff:</strong> 234</p>
+                        <button class="btn btn-primary" onclick="manageOfficers()">Manage Officers</button>
+                        <button class="btn btn-warning" onclick="performanceReview()">Performance Review</button>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Courses & Skill Catalog</div>
+                    <div class="card-content">
+                        <p><strong>Active Courses:</strong> 247</p>
+                        <p><strong>Skill Categories:</strong> 15</p>
+                        <p><strong>Certified Trainers:</strong> 567</p>
+                        <p><strong>Course Success Rate:</strong> 84.5%</p>
+                        <button class="btn btn-success" onclick="showScreen('course-management')">Manage Courses</button>
+                        <button class="btn btn-primary" onclick="addNewCourse()">Add New Course</button>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Scheme Configuration</div>
+                    <div class="card-content">
+                        <p><strong>Active Schemes:</strong> 12</p>
+                        <p><strong>Budget Allocation:</strong> ₹500 Crore</p>
+                        <p><strong>Utilization Rate:</strong> 87.6%</p>
+                        <p><strong>Beneficiary Coverage:</strong> 3.2M</p>
+                        <button class="btn btn-primary" onclick="configureSchemes()">Configure Schemes</button>
+                        <button class="btn btn-warning" onclick="budgetAnalysis()">Budget Analysis</button>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Training Centers & Infrastructure</div>
+                    <div class="card-content">
+                        <p><strong>Registered Centers:</strong> 2,847</p>
+                        <p><strong>Government Centers:</strong> 1,230</p>
+                        <p><strong>Private Partners:</strong> 1,617</p>
+                        <p><strong>Total Capacity:</strong> 45,670 seats</p>
+                        <button class="btn btn-primary" onclick="manageCenters()">Manage Centers</button>
+                        <button class="btn btn-success" onclick="addCenter()">Add New Center</button>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Document Templates & Standards</div>
+                    <div class="card-content">
+                        <p><strong>Certificate Templates:</strong> 34</p>
+                        <p><strong>Application Forms:</strong> 12</p>
+                        <p><strong>Verification Standards:</strong> 25</p>
+                        <p><strong>Compliance Rules:</strong> 145</p>
+                        <button class="btn btn-primary" onclick="manageTemplates()">Manage Templates</button>
+                        <button class="btn btn-warning" onclick="updateStandards()">Update Standards</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Data Integrity & Quality Control</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: bold; color: #4caf50;">99.7%</div>
+                        <div>Data Accuracy</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: bold; color: #2196f3;">247</div>
+                        <div>Daily Updates</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: bold; color: #ff9800;">23</div>
+                        <div>Validation Rules</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: bold; color: #9c27b0;">1.8s</div>
+                        <div>Avg Query Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Dashboard Screen -->
+        <div id="analytics" class="screen">
+            <h2 class="section-title">National Beneficiary Analytics Dashboard</h2>
+            
+            <div class="analytics-grid">
+                <div class="mdm-card">
+                    <div class="card-header">Gender Distribution Analytics</div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">Gender-wise Participation Chart</div>
+                        <div style="margin-top: 15px;">
+                            <p><strong>Female Participation:</strong> 62% (1,984,000 beneficiaries)</p>
+                            <p><strong>Male Participation:</strong> 38% (1,216,000 beneficiaries)</p>
+                            <p><strong>Success Rate (Female):</strong> 89.2%</p>
+                            <p><strong>Success Rate (Male):</strong> 86.7%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Caste-wise Distribution</div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">Caste Category Analysis</div>
+                        <div style="margin-top: 15px;">
+                            <p><strong>Scheduled Caste (SC):</strong> 78% (2,496,000)</p>
+                            <p><strong>Scheduled Tribe (ST):</strong> 22% (704,000)</p>
+                            <p><strong>Most Successful Skill:</strong> Computer Skills (SC)</p>
+                            <p><strong>Emerging Trend:</strong> Digital Marketing (ST)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Regional Performance Analysis</div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">State-wise Performance Map</div>
+                        <div style="margin-top: 15px;">
+                            <p><strong>Top Performing State:</strong> Uttar Pradesh (94.2%)</p>
+                            <p><strong>Highest Growth:</strong> Bihar (↑ 23% this quarter)</p>
+                            <p><strong>Rural Coverage:</strong> 78.5% nationwide</p>
+                            <p><strong>Urban Success Rate:</strong> 91.2%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mdm-card">
+                    <div class="card-header">Income Level Impact Analysis</div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">Income Growth Trajectory</div>
+                        <div style="margin-top: 15px;">
+                            <p><strong>Average Income Increase:</strong> 340%</p>
+                            <p><strong>Below Poverty Line:</strong> 67% of beneficiaries</p>
+                            <p><strong>Post-training APL:</strong> 89% moved above poverty line</p>
+                            <p><strong>Sustainability Rate:</strong> 92% after 12 months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>National Performance Indicators</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Total Beneficiaries</th>
+                            <th>Male (%)</th>
+                            <th>Female (%)</th>
+                            <th>SC (%)</th>
+                            <th>ST (%)</th>
+                            <th>Success Rate (%)</th>
+                            <th>Avg Income Increase</th>
+                            <th>Budget Utilization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Uttar Pradesh</td>
+                            <td>542,000</td>
+                            <td>36%</td>
+                            <td>64%</td>
+                            <td>78%</td>
+                            <td>22%</td>
+                            <td>94.2%</td>
+                            <td>370%</td>
+                            <td>91.5%</td>
+                        </tr>
+                        <tr>
+                            <td>Bihar</td>
+                            <td>398,000</td>
+                            <td>42%</td>
+                            <td>58%</td>
+                            <td>82%</td>
+                            <td>18%</td>
+                            <td>87.6%</td>
+                            <td>320%</td>
+                            <td>89.2%</td>
+                        </tr>
+                        <tr>
+                            <td>West Bengal</td>
+                            <td>365,000</td>
+                            <td>38%</td>
+                            <td>62%</td>
+                            <td>75%</td>
+                            <td>25%</td>
+                            <td>92.1%</td>
+                            <td>350%</td>
+                            <td>88.7%</td>
+                        </tr>
+                        <tr>
+                            <td>Maharashtra</td>
+                            <td>287,000</td>
+                            <td>40%</td>
+                            <td>60%</td>
+                            <td>70%</td>
+                            <td>30%</td>
+                            <td>89.8%</td>
+                            <td>385%</td>
+                            <td>93.1%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI Insights Engine Screen -->
+        <div id="ai-insights" class="screen">
+            <h2 class="section-title">AI Insight Engine</h2>
+            
+            <div class="insight-container">
+                <h3>AI-Powered Fraud Detection & Policy Optimization</h3>
+                <p>Advanced machine learning algorithms for proactive governance and fraud prevention</p>
+                
+                <div class="insight-card">
+                    <h4>Duplicate Beneficiary Detection</h4>
+                    <div style="margin: 15px 0;">
+                        <p><strong>Detection Accuracy:</strong> 99.3%</p>
+                        <p><strong>Duplicates Found:</strong> 1,247 cases this month</p>
+                        <p><strong>Amount Saved:</strong> ₹3.2 Crore</p>
+                        <p><strong>Algorithm:</strong> Multi-factor matching (Aadhaar, Bio, Address)</p>
+                    </div>
+                    <button class="btn btn-warning" onclick="viewDuplicates()">View Duplicate Cases</button>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Fraud Pattern Recognition</h4>
+                    <div style="margin: 15px 0;">
+                        <p><strong>Suspicious Applications:</strong> 89 flagged</p>
+                        <p><strong>Document Forgery:</strong> 34 cases detected</p>
+                        <p><strong>Identity Theft:</strong> 12 cases prevented</p>
+                        <p><strong>False Income Claims:</strong> 43 cases identified</p>
+                    </div>
+                    <button class="btn btn-danger" onclick="viewFraudCases()">Investigate Fraud Cases</button>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Predictive Impact Modeling</h4>
+                    <div style="margin: 15px 0;">
+                        <p><strong>Success Prediction:</strong> 94.7% accuracy</p>
+                        <p><strong>High-potential Candidates:</strong> 12,450 identified</p>
+                        <p><strong>At-risk Cases:</strong> 1,890 flagged for intervention</p>
+                        <p><strong>ROI Prediction:</strong> 387% average return expected</p>
+                    </div>
+                    <button class="btn btn-success" onclick="viewPredictions()">View Predictions</button>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Policy Optimization Recommendations</h4>
+                    <div style="margin: 15px 0;">
+                        <p><strong>Budget Reallocation:</strong> ₹12.5 Cr suggested redistribution</p>
+                        <p><strong>Skill Focus Areas:</strong> Digital Marketing, Healthcare</p>
+                        <p><strong>Regional Priorities:</strong> Rural UP, Tribal areas in MP</p>
+                        <p><strong>Training Duration:</strong> 15% reduction suggested for IT courses</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="viewRecommendations()">Policy Recommendations</button>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>AI Model Performance Metrics</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #4caf50; margin-bottom: 10px;">99.3%</div>
+                        <div><strong>Duplicate Detection</strong></div>
+                        <div style="font-size: 12px; color: #666;">Precision & Recall</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #2196f3; margin-bottom: 10px;">94.7%</div>
+                        <div><strong>Success Prediction</strong></div>
+                        <div style="font-size: 12px; color: #666;">Model Accuracy</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #ff9800; margin-bottom: 10px;">97.8%</div>
+                        <div><strong>Fraud Detection</strong></div>
+                        <div style="font-size: 12px; color: #666;">True Positive Rate</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #9c27b0; margin-bottom: 10px;">387%</div>
+                        <div><strong>ROI Prediction</strong></div>
+                        <div style="font-size: 12px; color: #666;">Average Return</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fund Disbursal Screen -->
+        <div id="fund-disbursal" class="screen">
+            <h2 class="section-title">Fund Disbursal & Audit Trail</h2>
+            
+            <div class="fund-overview">
+                <div class="fund-card">
+                    <h4>Total Budget Allocated</h4>
+                    <div style="font-size: 32px; color: #1976d2; font-weight: bold; margin: 15px 0;">₹500 Cr</div>
+                    <div style="color: #666;">FY 2025-26</div>
+                </div>
+                <div class="fund-card">
+                    <h4>Funds Disbursed</h4>
+                    <div style="font-size: 32px; color: #4caf50; font-weight: bold; margin: 15px 0;">₹185 Cr</div>
+                    <div style="color: #666;">37% Utilization</div>
+                </div>
+                <div class="fund-card">
+                    <h4>Pending Approvals</h4>
+                    <div style="font-size: 32px; color: #ff9800; font-weight: bold; margin: 15px 0;">₹45 Cr</div>
+                    <div style="color: #666;">127 Cases</div>
+                </div>
+                <div class="fund-card">
+                    <h4>Available Balance</h4>
+                    <div style="font-size: 32px; color: #9c27b0; font-weight: bold; margin: 15px 0;">₹270 Cr</div>
+                    <div style="color: #666;">54% Remaining</div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Fund Release Approvals Pending</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>State</th>
+                            <th>Category</th>
+                            <th>Amount (₹)</th>
+                            <th>Beneficiaries</th>
+                            <th>Requested Date</th>
+                            <th>Officer Recommendation</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FR-2025-001234</td>
+                            <td>Uttar Pradesh</td>
+                            <td>Training Infrastructure</td>
+                            <td>8,45,000</td>
+                            <td>200 (projected)</td>
+                            <td>Oct 3, 2025</td>
+                            <td>Strongly Recommended</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="approveFund('001234')">Approve</button>
+                                <button class="btn btn-warning btn-sm" onclick="reviewFund('001234')">Review</button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectFund('001234')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>FR-2025-001235</td>
+                            <td>Bihar</td>
+                            <td>Individual Training</td>
+                            <td>12,50,000</td>
+                            <td>25</td>
+                            <td>Oct 4, 2025</td>
+                            <td>Recommended</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="approveFund('001235')">Approve</button>
+                                <button class="btn btn-warning btn-sm" onclick="reviewFund('001235')">Review</button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectFund('001235')">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: #e8f5e8; padding: 25px; border-radius: 15px; margin-bottom: 30px;">
+                <h3>Complete Audit Trail Features</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Transaction Tracking</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Real-time fund movement tracking</li>
+                            <li>Bank integration for instant updates</li>
+                            <li>PFMS integration for government compliance</li>
+                            <li>Digital signatures for all approvals</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Compliance & Reporting</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>CAG-compliant audit trails</li>
+                            <li>Automated compliance checking</li>
+                            <li>Exception reporting and alerts</li>
+                            <li>Parliamentary reporting support</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Security & Controls</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Multi-level approval workflows</li>
+                            <li>Fraud detection algorithms</li>
+                            <li>Immutable transaction records</li>
+                            <li>Role-based access controls</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Management Screen -->
+        <div id="course-management" class="screen">
+            <h2 class="section-title">Training & Course Management</h2>
+            
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <label>Course Category</label>
+                    <select class="filter-control">
+                        <option>All Categories</option>
+                        <option>Computer Skills</option>
+                        <option>Digital Marketing</option>
+                        <option>Handicrafts</option>
+                        <option>Healthcare</option>
+                        <option>Agriculture</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Status</label>
+                    <select class="filter-control">
+                        <option>All Statuses</option>
+                        <option>Active</option>
+                        <option>Pending Approval</option>
+                        <option>Under Review</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>State</label>
+                    <select class="filter-control">
+                        <option>All States</option>
+                        <option>Uttar Pradesh</option>
+                        <option>Bihar</option>
+                        <option>West Bengal</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label></label>
+                    <button class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3>Course Approval & Management</h3>
+                    <div>
+                        <button class="btn btn-success" onclick="addNewCourse()">Add New Course</button>
+                        <button class="btn btn-primary" onclick="bulkApproval()">Bulk Approval</button>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Category</th>
+                            <th>Duration (Hours)</th>
+                            <th>Training Partner</th>
+                            <th>Capacity</th>
+                            <th>Success Rate</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CRS-2025-001</td>
+                            <td>Advanced Excel & Data Analysis</td>
+                            <td>Computer Skills</td>
+                            <td>120</td>
+                            <td>TechMahindra Foundation</td>
+                            <td>500</td>
+                            <td>87%</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Active</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editCourse('001')">Edit</button>
+                                <button class="btn btn-warning btn-sm" onclick="assignTrainer('001')">Assign Trainer</button>
+                                <button class="btn btn-success btn-sm" onclick="viewMetrics('001')">Metrics</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CRS-2025-002</td>
+                            <td>Digital Marketing Fundamentals</td>
+                            <td>Digital Marketing</td>
+                            <td>160</td>
+                            <td>NIIT Foundation</td>
+                            <td>300</td>
+                            <td>79%</td>
+                            <td><span style="color: #ff9800; font-weight: bold;">Under Review</span></td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="approveCourse('002')">Approve</button>
+                                <button class="btn btn-warning btn-sm" onclick="requestChanges('002')">Request Changes</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CRS-2025-003</td>
+                            <td>Traditional Handicrafts & E-commerce</td>
+                            <td>Handicrafts</td>
+                            <td>200</td>
+                            <td>Craft Council of India</td>
+                            <td>150</td>
+                            <td>92%</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Active</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editCourse('003')">Edit</button>
+                                <button class="btn btn-success btn-sm" onclick="expandCourse('003')">Expand Capacity</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
+                <h3>Dynamic Skill Ecosystem Management</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Course Performance Analytics</h4>
+                        <p><strong>Top Performing:</strong> Handicrafts (92% success)</p>
+                        <p><strong>Fastest Growing:</strong> Digital Marketing (+23%)</p>
+                        <p><strong>Most Demanded:</strong> Computer Skills (67% applications)</p>
+                        <p><strong>Emerging Trend:</strong> AI/ML Basics (+340% interest)</p>
+                    </div>
+                    <div>
+                        <h4>Trainer & Institute Management</h4>
+                        <p><strong>Certified Trainers:</strong> 567 active</p>
+                        <p><strong>Training Partners:</strong> 234 institutes</p>
+                        <p><strong>Government Centers:</strong> 1,230</p>
+                        <p><strong>Private Partners:</strong> 1,617</p>
+                    </div>
+                    <div>
+                        <h4>Quality Assurance</h4>
+                        <p><strong>Course Audits:</strong> Monthly quality checks</p>
+                        <p><strong>Feedback System:</strong> Real-time beneficiary feedback</p>
+                        <p><strong>Certification Standards:</strong> Industry-aligned</p>
+                        <p><strong>Continuous Improvement:</strong> AI-driven optimization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Role Management Screen -->
+        <div id="user-roles" class="screen">
+            <h2 class="section-title">User Role Management System</h2>
+            
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Role-Based Access Control</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Super Administrator</h4>
+                        <p><strong>Count:</strong> 3 users</p>
+                        <p><strong>Permissions:</strong> Full system access</p>
+                        <p><strong>Scope:</strong> National level</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('super-admin')">Manage</button>
+                    </div>
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>State Administrators</h4>
+                        <p><strong>Count:</strong> 37 users</p>
+                        <p><strong>Permissions:</strong> State-level control</p>
+                        <p><strong>Scope:</strong> State/UT level</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('state-admin')">Manage</button>
+                    </div>
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>District Officers</h4>
+                        <p><strong>Count:</strong> 765 users</p>
+                        <p><strong>Permissions:</strong> District operations</p>
+                        <p><strong>Scope:</strong> District level</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('district-officer')">Manage</button>
+                    </div>
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Field Enumerators</h4>
+                        <p><strong>Count:</strong> 3,890 users</p>
+                        <p><strong>Permissions:</strong> Verification only</p>
+                        <p><strong>Scope:</strong> Block/Village level</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('enumerator')">Manage</button>
+                    </div>
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Training Partners</h4>
+                        <p><strong>Count:</strong> 567 users</p>
+                        <p><strong>Permissions:</strong> Training management</p>
+                        <p><strong>Scope:</strong> Institute level</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('trainer')">Manage</button>
+                    </div>
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Auditors</h4>
+                        <p><strong>Count:</strong> 45 users</p>
+                        <p><strong>Permissions:</strong> Read-only access</p>
+                        <p><strong>Scope:</strong> Multi-level auditing</p>
+                        <button class="btn btn-primary btn-sm" onclick="manageRole('auditor')">Manage</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>User Management & Activity</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Last Login</th>
+                            <th>Performance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>USR-2025-001</td>
+                            <td>Rajesh Kumar</td>
+                            <td>Field Enumerator</td>
+                            <td>Lucknow, UP</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Active</span></td>
+                            <td>Oct 5, 2025 - 2:30 PM</td>
+                            <td>98.2% (Excellent)</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editUser('001')">Edit</button>
+                                <button class="btn btn-warning btn-sm" onclick="resetPassword('001')">Reset Password</button>
+                                <button class="btn btn-success btn-sm" onclick="viewActivity('001')">Activity Log</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>USR-2025-002</td>
+                            <td>Priya Singh</td>
+                            <td>District Officer</td>
+                            <td>Varanasi, UP</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Active</span></td>
+                            <td>Oct 5, 2025 - 1:45 PM</td>
+                            <td>94.7% (Good)</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editUser('002')">Edit</button>
+                                <button class="btn btn-success btn-sm" onclick="promoteUser('002')">Promote</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>USR-2025-003</td>
+                            <td>Amit Sharma</td>
+                            <td>Training Partner</td>
+                            <td>Mumbai, MH</td>
+                            <td><span style="color: #ff9800; font-weight: bold;">Inactive (7 days)</span></td>
+                            <td>Sep 28, 2025</td>
+                            <td>87.3% (Average)</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="contactUser('003')">Contact</button>
+                                <button class="btn btn-danger btn-sm" onclick="suspendUser('003')">Suspend</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: #e3f2fd; padding: 25px; border-radius: 15px;">
+                <h3>Access Control Features</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Security Controls</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>Multi-factor authentication (MFA)</li>
+                            <li>Session timeout management</li>
+                            <li>IP address restrictions</li>
+                            <li>Password policy enforcement</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Permission Management</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>Granular permission controls</li>
+                            <li>Temporary access grants</li>
+                            <li>Delegation workflows</li>
+                            <li>Emergency access procedures</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Monitoring & Compliance</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>Real-time user activity monitoring</li>
+                            <li>Failed login attempt tracking</li>
+                            <li>Privileged access reviews</li>
+                            <li>Compliance reporting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration API Layer Screen -->
+        <div id="integrations" class="screen">
+            <h2 class="section-title">Integration API Layer</h2>
+            
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>UIDAI (Aadhaar)</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Last Sync:</strong> 2 minutes ago</p>
+                    <p><strong>Success Rate:</strong> 99.7%</p>
+                    <p><strong>Daily Queries:</strong> 45,670</p>
+                    <button class="btn btn-success btn-sm">Test Connection</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>NSDC (Skill Council)</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Last Sync:</strong> 5 minutes ago</p>
+                    <p><strong>Success Rate:</strong> 98.9%</p>
+                    <p><strong>Certifications:</strong> 1,247 synced</p>
+                    <button class="btn btn-success btn-sm">Test Connection</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>PFMS (Fund Management)</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Last Sync:</strong> 1 minute ago</p>
+                    <p><strong>Success Rate:</strong> 99.9%</p>
+                    <p><strong>Transactions:</strong> ₹185 Cr tracked</p>
+                    <button class="btn btn-success btn-sm">Test Connection</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>PM-AJAY Legacy MIS</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Last Sync:</strong> 3 minutes ago</p>
+                    <p><strong>Success Rate:</strong> 97.8%</p>
+                    <p><strong>Records:</strong> 3.2M migrated</p>
+                    <button class="btn btn-success btn-sm">Test Connection</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status warning">⚠</div>
+                    <h4>Income Tax Database</h4>
+                    <p><strong>Status:</strong> Slow Response</p>
+                    <p><strong>Last Sync:</strong> 25 minutes ago</p>
+                    <p><strong>Success Rate:</strong> 94.2%</p>
+                    <p><strong>Pending:</strong> 347 verifications</p>
+                    <button class="btn btn-warning btn-sm">Retry Connection</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>Banking Partners</h4>
+                    <p><strong>Status:</strong> All Banks Connected</p>
+                    <p><strong>Active Banks:</strong> 47 PSBs + 12 Private</p>
+                    <p><strong>Success Rate:</strong> 99.1%</p>
+                    <p><strong>UPI Integration:</strong> Active</p>
+                    <button class="btn btn-success btn-sm">Bank Status</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>SMS Gateway</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Provider:</strong> NIC SMS Gateway</p>
+                    <p><strong>Daily Volume:</strong> 125,000 SMS</p>
+                    <p><strong>Delivery Rate:</strong> 98.7%</p>
+                    <button class="btn btn-success btn-sm">Test SMS</button>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-status connected">✓</div>
+                    <h4>Email Services</h4>
+                    <p><strong>Status:</strong> Connected</p>
+                    <p><strong>Provider:</strong> NIC Email Service</p>
+                    <p><strong>Daily Volume:</strong> 45,670 emails</p>
+                    <p><strong>Delivery Rate:</strong> 99.2%</p>
+                    <button class="btn btn-success btn-sm">Test Email</button>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>API Performance & Statistics</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 28px; color: #4caf50; font-weight: bold;">99.8%</div>
+                        <div>Overall Uptime</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 28px; color: #2196f3; font-weight: bold;">1.8M</div>
+                        <div>Daily API Calls</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 28px; color: #ff9800; font-weight: bold;">247ms</div>
+                        <div>Avg Response Time</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 28px; color: #9c27b0; font-weight: bold;">0.02%</div>
+                        <div>Error Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #e8f5e8; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h3>End-to-end Interoperability Features</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Real-time Data Synchronization</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>Bi-directional data sync</li>
+                            <li>Event-driven updates</li>
+                            <li>Conflict resolution algorithms</li>
+                            <li>Real-time error handling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Security & Compliance</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>End-to-end encryption</li>
+                            <li>OAuth 2.0 authentication</li>
+                            <li>API rate limiting</li>
+                            <li>Audit logging</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Monitoring & Alerting</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>24/7 system monitoring</li>
+                            <li>Automated failover</li>
+                            <li>Performance alerts</li>
+                            <li>Capacity planning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports & Compliance Screen -->
+        <div id="reports" class="screen">
+            <h2 class="section-title">Reports & Compliance Management</h2>
+            
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Automated Report Generation</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Monthly Performance Report</h4>
+                        <p><strong>Status:</strong> Auto-generated on 1st of each month</p>
+                        <p><strong>Recipients:</strong> MoSJE, State Secretaries</p>
+                        <p><strong>Last Generated:</strong> Oct 1, 2025</p>
+                        <p><strong>Format:</strong> PDF + Excel Dashboard</p>
+                        <button class="btn btn-primary btn-sm" onclick="generateReport('monthly')">Generate Now</button>
+                        <button class="btn btn-success btn-sm" onclick="downloadReport('monthly')">Download Latest</button>
+                    </div>
+                    
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Quarterly Impact Assessment</h4>
+                        <p><strong>Status:</strong> Due in 25 days</p>
+                        <p><strong>Recipients:</strong> Parliament, PMO</p>
+                        <p><strong>Last Generated:</strong> July 1, 2025</p>
+                        <p><strong>Format:</strong> Comprehensive Impact Report</p>
+                        <button class="btn btn-warning btn-sm" onclick="generateReport('quarterly')">Prepare Draft</button>
+                        <button class="btn btn-primary btn-sm" onclick="reviewReport('quarterly')">Review Template</button>
+                    </div>
+                    
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Annual Compliance Report</h4>
+                        <p><strong>Status:</strong> In preparation</p>
+                        <p><strong>Recipients:</strong> CAG, MoSJE</p>
+                        <p><strong>Deadline:</strong> March 31, 2026</p>
+                        <p><strong>Format:</strong> CAG-compliant audit report</p>
+                        <button class="btn btn-success btn-sm" onclick="generateReport('annual')">Start Preparation</button>
+                        <button class="btn btn-warning btn-sm" onclick="complianceCheck('annual')">Compliance Check</button>
+                    </div>
+                    
+                    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+                        <h4>Real-time Dashboard</h4>
+                        <p><strong>Status:</strong> Live updates every 5 minutes</p>
+                        <p><strong>Access:</strong> 24/7 web portal</p>
+                        <p><strong>Users:</strong> 47 authorized officials</p>
+                        <p><strong>Features:</strong> Interactive charts & filters</p>
+                        <button class="btn btn-primary btn-sm" onclick="openDashboard()">Open Dashboard</button>
+                        <button class="btn btn-success btn-sm" onclick="shareDashboard()">Share Access</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Custom Report Builder</h3>
+                <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div class="filter-item">
+                        <label>Report Type</label>
+                        <select class="filter-control">
+                            <option>Beneficiary Analysis</option>
+                            <option>Financial Summary</option>
+                            <option>Performance Metrics</option>
+                            <option>Compliance Report</option>
+                            <option>Training Outcomes</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Time Period</label>
+                        <select class="filter-control">
+                            <option>Current Month</option>
+                            <option>Last 3 Months</option>
+                            <option>Current Financial Year</option>
+                            <option>Custom Date Range</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Geographic Scope</label>
+                        <select class="filter-control">
+                            <option>National</option>
+                            <option>State-wise</option>
+                            <option>District-wise</option>
+                            <option>Specific Region</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Output Format</label>
+                        <select class="filter-control">
+                            <option>PDF Report</option>
+                            <option>Excel Dashboard</option>
+                            <option>PowerPoint Presentation</option>
+                            <option>Interactive Web Report</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="generateCustomReport()">Generate Custom Report</button>
+                <button class="btn btn-primary" onclick="saveReportTemplate()">Save as Template</button>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
+                <h3>Paperless Governance Initiatives</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Digital Documentation</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>124 reports</strong> generated digitally this year</li>
+                            <li><strong>99.8% paperless</strong> operations achieved</li>
+                            <li><strong>₹23 lakh saved</strong> in printing & logistics</li>
+                            <li><strong>Carbon footprint reduced</strong> by 67%</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Automated Compliance</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Real-time compliance</strong> monitoring</li>
+                            <li><strong>Automated alerts</strong> for deadlines</li>
+                            <li><strong>Template-based</strong> report generation</li>
+                            <li><strong>Multi-format export</strong> capabilities</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Stakeholder Access</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Role-based access</strong> to reports</li>
+                            <li><strong>Secure sharing</strong> mechanisms</li>
+                            <li><strong>Version control</strong> and audit trails</li>
+                            <li><strong>Mobile-friendly</strong> report viewing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Alerts Screen -->
+        <div id="alerts" class="screen">
+            <h2 class="section-title">System Alerts & Preventive Controls</h2>
+            
+            <div class="alert-panel critical">
+                <h4>🚨 Critical Alerts (Immediate Action Required)</h4>
+                <div style="margin: 15px 0;">
+                    <p><strong>Duplicate Aadhaar Detection:</strong> 12 potential duplicate applications detected in the last hour</p>
+                    <p><strong>Location:</strong> Multiple states affected</p>
+                    <p><strong>Risk Level:</strong> High - Potential fund loss of ₹6.8 lakh</p>
+                    <button class="btn btn-danger btn-sm" onclick="investigateDuplicates()">Investigate Now</button>
+                </div>
+            </div>
+
+            <div class="alert-panel">
+                <h4>⚠️ Warning Alerts (Action Needed Within 24 Hours)</h4>
+                <div style="margin: 15px 0;">
+                    <p><strong>Inactive User Accounts:</strong> 47 officer accounts inactive for 30+ days</p>
+                    <p><strong>System Performance:</strong> Database response time increased by 15%</p>
+                    <p><strong>Integration Issues:</strong> Income Tax API showing 6% higher failure rate</p>
+                    <button class="btn btn-warning btn-sm" onclick="reviewWarnings()">Review Warnings</button>
+                </div>
+            </div>
+
+            <div class="alert-panel info">
+                <h4>ℹ️ Information Alerts (For Review)</h4>
+                <div style="margin: 15px 0;">
+                    <p><strong>Monthly Targets:</strong> 3 states exceeded beneficiary targets by 15%+</p>
+                    <p><strong>New Registrations:</strong> 247% increase in Digital Marketing course applications</p>
+                    <p><strong>System Updates:</strong> Scheduled maintenance this Sunday 2-6 AM</p>
+                    <button class="btn btn-primary btn-sm" onclick="viewInfoAlerts()">View Details</button>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Fraud Detection & Prevention</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Alert Type</th>
+                            <th>Count</th>
+                            <th>Risk Level</th>
+                            <th>Potential Impact</th>
+                            <th>Auto-Action</th>
+                            <th>Manual Review</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Duplicate Aadhaar</td>
+                            <td>12</td>
+                            <td><span style="color: #f44336; font-weight: bold;">High</span></td>
+                            <td>₹6.8L potential loss</td>
+                            <td>Applications flagged</td>
+                            <td>Required</td>
+                            <td><span style="color: #ff9800; font-weight: bold;">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>Document Forgery</td>
+                            <td>5</td>
+                            <td><span style="color: #ff9800; font-weight: bold;">Medium</span></td>
+                            <td>₹2.5L potential loss</td>
+                            <td>Sent to verification</td>
+                            <td>In Progress</td>
+                            <td><span style="color: #2196f3; font-weight: bold;">Under Review</span></td>
+                        </tr>
+                        <tr>
+                            <td>Suspicious Patterns</td>
+                            <td>23</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Low</span></td>
+                            <td>₹1.2L potential loss</td>
+                            <td>Monitoring enabled</td>
+                            <td>Scheduled</td>
+                            <td><span style="color: #4caf50; font-weight: bold;">Monitored</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: #e8f5e8; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h3>Preventive Control Systems</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>Real-time Monitoring</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>24/7 automated monitoring</strong> of all transactions</li>
+                            <li><strong>AI-powered anomaly detection</strong> with 99.3% accuracy</li>
+                            <li><strong>Pattern recognition</strong> for unusual behavior</li>
+                            <li><strong>Instant alert generation</strong> for suspicious activities</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Automated Responses</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Auto-flagging</strong> of duplicate applications</li>
+                            <li><strong>Temporary account suspension</strong> for policy violations</li>
+                            <li><strong>Workflow routing</strong> to appropriate authorities</li>
+                            <li><strong>Evidence collection</strong> and documentation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Escalation Procedures</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Multi-tier escalation</strong> based on risk levels</li>
+                            <li><strong>Automated notifications</strong> to supervisors</li>
+                            <li><strong>Time-bound resolution</strong> requirements</li>
+                            <li><strong>Audit trail maintenance</strong> for all actions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Log Screen -->
+        <div id="audit-log" class="screen">
+            <h2 class="section-title">Comprehensive Audit Logbook</h2>
+            
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <label>User Type</label>
+                    <select class="filter-control">
+                        <option>All Users</option>
+                        <option>Administrators</option>
+                        <option>Officers</option>
+                        <option>Enumerators</option>
+                        <option>System</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Action Type</label>
+                    <select class="filter-control">
+                        <option>All Actions</option>
+                        <option>Create</option>
+                        <option>Update</option>
+                        <option>Delete</option>
+                        <option>Login/Logout</option>
+                        <option>Data Export</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Date Range</label>
+                    <input type="date" class="filter-control" value="2025-10-01">
+                    <input type="date" class="filter-control" value="2025-10-05">
+                </div>
+                <div class="filter-item">
+                    <label>Risk Level</label>
+                    <select class="filter-control">
+                        <option>All Levels</option>
+                        <option>High Risk</option>
+                        <option>Medium Risk</option>
+                        <option>Low Risk</option>
+                        <option>Informational</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label></label>
+                    <button class="btn btn-primary">Apply Filters</button>
+                    <button class="btn btn-success">Export Log</button>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Recent Audit Log Entries</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                            <th>Action</th>
+                            <th>Resource</th>
+                            <th>Details</th>
+                            <th>IP Address</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oct 5, 2025 15:45:23</td>
+                            <td>USR-001</td>
+                            <td>Rajesh Kumar</td>
+                            <td>UPDATE</td>
+                            <td>Beneficiary Record</td>
+                            <td>Updated training status for PMAJAY-2025-001234</td>
+                            <td>192.168.1.45</td>
+                            <td><span style="color: #4caf50;">Low</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025 15:32:17</td>
+                            <td>ADM-003</td>
+                            <td>Dr. Rajesh Gupta</td>
+                            <td>APPROVE</td>
+                            <td>Fund Release</td>
+                            <td>Approved fund release FR-2025-001234 for ₹8,45,000</td>
+                            <td>10.0.0.15</td>
+                            <td><span style="color: #ff9800;">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025 15:28:09</td>
+                            <td>SYS-AUTO</td>
+                            <td>System Automated</td>
+                            <td>ALERT</td>
+                            <td>Duplicate Detection</td>
+                            <td>Flagged 12 potential duplicate Aadhaar applications</td>
+                            <td>127.0.0.1</td>
+                            <td><span style="color: #f44336;">Critical</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025 15:15:44</td>
+                            <td>USR-247</td>
+                            <td>Priya Singh</td>
+                            <td>EXPORT</td>
+                            <td>Beneficiary Data</td>
+                            <td>Exported beneficiary list for Varanasi district</td>
+                            <td>203.192.45.78</td>
+                            <td><span style="color: #ff9800;">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025 14:58:32</td>
+                            <td>USR-089</td>
+                            <td>Amit Sharma</td>
+                            <td>LOGIN</td>
+                            <td>System Access</td>
+                            <td>Successful login after 7 days of inactivity</td>
+                            <td>157.48.23.190</td>
+                            <td><span style="color: #2196f3;">Info</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025 14:45:18</td>
+                            <td>USR-156</td>
+                            <td>Sunita Verma</td>
+                            <td>CREATE</td>
+                            <td>Application</td>
+                            <td>Created new beneficiary application PMAJAY-2025-005678</td>
+                            <td>182.73.45.221</td>
+                            <td><span style="color: #4caf50;">Low</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
+                <h3>Audit Trail Analytics & Compliance</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="text-align: center; padding: 20px; background: white; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #1976d2; font-weight: bold;">1.2M</div>
+                        <div><strong>Total Logged Actions</strong></div>
+                        <div style="font-size: 12px; color: #666;">This month</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: white; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #4caf50; font-weight: bold;">99.9%</div>
+                        <div><strong>Log Integrity</strong></div>
+                        <div style="font-size: 12px; color: #666;">No missing entries</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: white; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #ff9800; font-weight: bold;">247</div>
+                        <div><strong>High-Risk Actions</strong></div>
+                        <div style="font-size: 12px; color: #666;">Flagged for review</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: white; border-radius: 10px;">
+                        <div style="font-size: 32px; color: #9c27b0; font-weight: bold;">7 years</div>
+                        <div><strong>Retention Period</strong></div>
+                        <div style="font-size: 12px; color: #666;">Compliance requirement</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4>Accountability & Transparency Features</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 15px;">
+                        <div>
+                            <h5>Complete Traceability</h5>
+                            <ul style="margin-left: 20px;">
+                                <li>Every system action logged with timestamp</li>
+                                <li>User identification and IP tracking</li>
+                                <li>Before/after values for all updates</li>
+                                <li>Chain of custody for sensitive operations</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Tamper-proof Records</h5>
+                            <ul style="margin-left: 20px;">
+                                <li>Cryptographic hashing of log entries</li>
+                                <li>Immutable log storage system</li>
+                                <li>Regular integrity verification</li>
+                                <li>Backup and disaster recovery</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Compliance & Reporting</h5>
+                            <ul style="margin-left: 20px;">
+                                <li>CAG-compliant audit trail format</li>
+                                <li>Automated compliance reporting</li>
+                                <li>Role-based access to audit logs</li>
+                                <li>Export capabilities for investigations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Master Data Management Functions
+        function manageStates() {
+            alert('State Management Interface:\n\n• Add/Edit state information\n• Manage district boundaries\n• Update administrative divisions\n• Configure regional parameters\n• Assign state administrators');
+        }
+
+        function addDistrict() {
+            alert('Add New District:\n\nRequired Information:\n• District name and code\n• State assignment\n• Administrative boundaries\n• Population demographics\n• Officer assignments');
+        }
+
+        function manageOfficers() {
+            alert('Officer Management System:\n\n• View all officers (1,247 active)\n• Performance tracking\n• Role assignments\n• Geographic allocation\n• Training schedules\n• Performance reviews');
+        }
+
+        function addNewCourse() {
+            alert('New Course Creation:\n\nCourse Details Required:\n• Course name and description\n• Skill category\n• Duration and curriculum\n• Trainer requirements\n• Assessment criteria\n• Success metrics');
+        }
+
+        // AI Insights Functions
+        function viewDuplicates() {
+            alert('Duplicate Detection Results:\n\n12 potential duplicates found:\n• Same Aadhaar across applications\n• Matching biometric data\n• Similar address patterns\n• Recommended action: Manual review\n• Potential savings: ₹6.8 lakh');
+        }
+
+        function viewFraudCases() {
+            alert('Fraud Investigation Dashboard:\n\n89 cases flagged:\n• Document forgery: 34 cases\n• Identity theft: 12 cases\n• False income claims: 43 cases\n• All cases assigned to investigators\n• Average resolution time: 5 days');
+        }
+
+        function viewPredictions() {
+            alert('AI Success Predictions:\n\n• High-potential candidates: 12,450\n• Success probability >85%: 8,900\n• At-risk cases: 1,890\n• Recommended interventions prepared\n• Predicted ROI: 387% average');
+        }
+
+        // Fund Disbursal Functions
+        function approveFund(requestId) {
+            alert('Fund Release Approved!\n\nRequest ID: ' + requestId + '\nStatus: APPROVED\nAmount: Released\nBeneficiaries: Notified\nAudit Trail: Updated\n\nTransaction will be processed within 24 hours.');
+        }
+
+        function reviewFund(requestId) {
+            alert('Fund Review Initiated:\n\nRequest ID: ' + requestId + '\n\nReview Checklist:\n• Documentation completeness\n• Beneficiary verification\n• Budget availability\n• Compliance requirements\n\nExpected resolution: 48 hours');
+        }
+
+        function rejectFund(requestId) {
+            alert('Fund Request Rejection:\n\nReason required for rejection:\n• Insufficient documentation\n• Budget constraints\n• Policy non-compliance\n• Verification issues\n\nDetailed reason will be sent to requesting officer.');
+        }
+
+        // Course Management Functions
+        function approveCourse(courseId) {
+            alert('Course Approved!\n\nCourse ID: ' + courseId + '\nStatus: ACTIVE\nTraining partners notified\nRegistration opened\nCapacity: 300 beneficiaries\n\nCourse will be available from tomorrow.');
+        }
+
+        function editCourse(courseId) {
+            alert('Course Edit Interface:\n\nCourse ID: ' + courseId + '\n\nEditable Fields:\n• Course content\n• Duration\n• Capacity\n• Trainer assignments\n• Assessment criteria\n• Certification requirements');
+        }
+
+        function assignTrainer(courseId) {
+            alert('Trainer Assignment:\n\nCourse ID: ' + courseId + '\n\nAvailable Trainers:\n• 567 certified trainers\n• Skill-specific matching\n• Geographic preferences\n• Performance ratings\n• Availability schedules');
+        }
+
+        // User Role Management Functions
+        function manageRole(roleType) {
+            alert('Role Management: ' + roleType + '\n\nManagement Options:\n• View all users in this role\n• Modify permissions\n• Add/remove users\n• Set access restrictions\n• Monitor activity\n• Generate reports');
+        }
+
+        function editUser(userId) {
+            alert('User Profile Editor:\n\nUser ID: ' + userId + '\n\nEditable Fields:\n• Personal information\n• Role assignments\n• Access permissions\n• Geographic scope\n• Contact details\n• Security settings');
+        }
+
+        function resetPassword(userId) {
+            alert('Password Reset:\n\nUser ID: ' + userId + '\n\nReset Options:\n• Generate temporary password\n• Send via SMS/Email\n• Require change on next login\n• Multi-factor authentication\n• Security questions update');
+        }
+
+        // Report Generation Functions
+        function generateReport(reportType) {
+            alert('Generating ' + reportType + ' Report:\n\nProcessing...\n• Data compilation\n• Chart generation\n• Compliance formatting\n• Quality checks\n\nEstimated completion: 5 minutes\nDelivery: Email + Dashboard');
+        }
+
+        function downloadReport(reportType) {
+            alert('Downloading ' + reportType + ' Report:\n\nReport Details:\n• Format: PDF + Excel\n• Size: 2.3 MB\n• Generated: Oct 1, 2025\n• Pages: 47\n\nDownload will start automatically.');
+        }
+
+        function generateCustomReport() {
+            alert('Custom Report Generator:\n\nReport Configuration:\n• Selected filters applied\n• Data sources validated\n• Format preferences set\n• Delivery options configured\n\nGeneration time: 3-7 minutes');
+        }
+
+        // System Alerts Functions
+        function investigateDuplicates() {
+            alert('Duplicate Investigation Initiated:\n\n12 cases assigned to investigators\nPriority: HIGH\nEstimated resolution: 4 hours\nPotential savings: ₹6.8 lakh\n\nAll affected applications temporarily suspended.');
+        }
+
+        function reviewWarnings() {
+            alert('Warning Review Dashboard:\n\n47 inactive accounts:\n• Automatic suspension in 7 days\n• Reactivation process available\n• Supervisors notified\n\nPerformance issues being addressed.');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('PM-AJAY Complete Admin Portal Loaded - All 10 Modules Active');
+        });
+    </script>
+</body>
+</html>

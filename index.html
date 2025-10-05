@@ -1,1 +1,188 @@
-<h1>Demo</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM-AJAY Digital Beneficiary Identification System Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-8">
+
+    <!-- Login Card Container -->
+    <div class="login-container relative max-w-lg w-full bg-white bg-opacity-95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 sm:p-10 z-10">
+        
+        <!-- Top Branding Area -->
+        <div class="text-center mb-8">
+            <!-- PM-AJAY Logo Space -->
+            <div class="mx-auto mb-2 flex items-center justify-center text-white" style="height: 14em;">
+                <img src="./assets/pm-ajay.png">
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-800 tracking-tight" style="color: var(--color-navy);">PM-AJAY Digital Beneficiary Identification System</h1>
+            <p class="text-sm text-gray-500 mt-1 font-medium">Grant-in-Aid (GIA) Scheme Portal</p>
+        </div>
+
+        <!-- Role Selector Tabs -->
+        <div class="flex justify-between space-x-2 sm:space-x-4 mb-6 p-1 bg-gray-50 rounded-xl shadow-inner">
+            <button id="tab-citizen" class="tab-button tab-citizen flex-1 p-2 sm:py-3 rounded-xl text-sm sm:text-base font-semibold text-center transition-all duration-300 focus:outline-none active" data-tab="citizen">
+                Citizen Login
+                <div class="tab-indicator mt-1"></div>
+            </button>
+            <button id="tab-office" class="tab-button tab-office flex-1 p-2 sm:py-3 rounded-xl text-sm sm:text-base font-semibold text-center transition-all duration-300 focus:outline-none" data-tab="office">
+                Office Login
+                <div class="tab-indicator mt-1"></div>
+            </button>
+            <button id="tab-admin" class="tab-button tab-admin flex-1 p-2 sm:py-3 rounded-xl text-sm sm:text-base font-semibold text-center transition-all duration-300 focus:outline-none" data-tab="admin">
+                Admin Login
+                <div class="tab-indicator mt-1"></div>
+            </button>
+        </div>
+        
+        <!-- Login Forms Container -->
+        <div id="login-forms" class="p-4 sm:p-6 bg-white rounded-2xl border border-gray-100 shadow-lg transition-all duration-500">
+
+            <!-- Citizen Login Section -->
+            <div id="content-citizen" class="login-content active">
+                <div class="flex items-center space-x-3 mb-5 border-b pb-3" style="border-color: var(--color-green);">
+                    <i data-lucide="user-check" class="h-6 w-6 text-green-600"></i>
+                    <h2 class="text-xl font-bold text-gray-700">Beneficiary Portal</h2>
+                </div>
+                <!-- Feature Icons -->
+                <div class="grid grid-cols-3 gap-4 mb-6 text-center text-gray-600">
+                    <div class="p-2 rounded-lg bg-green-50">
+                        <i data-lucide="scan" class="h-6 w-6 mx-auto text-green-700 mb-1"></i>
+                        <p class="text-xs font-medium">Aadhaar-based</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-green-50">
+                        <i data-lucide="upload-cloud" class="h-6 w-6 mx-auto text-green-700 mb-1"></i>
+                        <p class="text-xs font-medium">Document Upload</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-green-50">
+                        <i data-lucide="activity" class="h-6 w-6 mx-auto text-green-700 mb-1"></i>
+                        <p class="text-xs font-medium">Status Tracking</p>
+                    </div>
+                </div>
+                
+                <!-- Demo Credentials Hint for Citizen -->
+                <div class="mb-6 p-3 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm">
+                    <p class="font-bold mb-1 flex items-center"><i data-lucide="key" class="h-4 w-4 mr-2"></i> Demo Login Hint</p>
+                    <p><span class="font-semibold">Email ID:</span> <code>citize@gma.com</code></p>
+                    <p class="text-xs mt-1 italic opacity-80">Note: This is an ID-only login (no password required).</p>
+                </div>
+                
+                <!-- Form -->
+                <form onsubmit="handleLogin(event, 'Citizen', 'pages/citizen/citizen.html')">
+                    <div class="mb-4">
+                        <label for="citizen-id" class="block text-sm font-medium text-gray-700">Email ID / Beneficiary ID</label>
+                        <input type="email" id="citizen-id" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-indigo-500 transition duration-150" placeholder="Enter Registered Email ID" required>
+                    </div>
+                    <button type="submit" class="glow-button w-full text-lg py-3 rounded-xl text-white font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition duration-300">
+                        Login Securely
+                    </button>
+                </form>
+            </div>
+
+            <!-- Office Login Section -->
+            <div id="content-office" class="login-content hidden">
+                <div class="flex items-center space-x-3 mb-5 border-b pb-3" style="border-color: var(--color-navy);">
+                    <i data-lucide="hard-hat" class="h-6 w-6 text-indigo-600"></i>
+                    <h2 class="text-xl font-bold text-gray-700">Department/Office Portal</h2>
+                </div>
+                <!-- Feature Icons -->
+                <div class="grid grid-cols-2 gap-4 mb-6 text-center text-gray-600">
+                    <div class="p-2 rounded-lg bg-indigo-50">
+                        <i data-lucide="layout-dashboard" class="h-6 w-6 mx-auto text-indigo-700 mb-1"></i>
+                        <p class="text-xs font-medium">Dashboard Access</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-indigo-50">
+                        <i data-lucide="clipboard-check" class="h-6 w-6 mx-auto text-indigo-700 mb-1"></i>
+                        <p class="text-xs font-medium">Data Verification</p>
+                    </div>
+                </div>
+                
+                <!-- Demo Credentials Hint for Office -->
+                <div class="mb-6 p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-800 text-sm">
+                    <p class="font-bold mb-1 flex items-center"><i data-lucide="key" class="h-4 w-4 mr-2"></i> Demo Login Hint</p>
+                    <p><span class="font-semibold">Email ID:</span> <code>officer@gmail.com</code></p>
+                    <p><span class="font-semibold">Password:</span> <code>pass123</code></p>
+                </div>
+
+                <!-- Form -->
+                <form onsubmit="handleLogin(event, 'Office', 'pages/officer/officer.html')">
+                    <div class="mb-4">
+                        <label for="office-id" class="block text-sm font-medium text-gray-700">Official Email ID</label>
+                        <input type="email" id="office-id" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-indigo-500 transition duration-150" placeholder="Enter Official Email ID" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="office-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="office-password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-indigo-500 transition duration-150" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="glow-button w-full text-lg py-3 rounded-xl text-white font-bold bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 transition duration-300">
+                        Proceed
+                    </button>
+                </form>
+            </div>
+
+            <!-- Admin Login Section -->
+            <div id="content-admin" class="login-content hidden">
+                <div class="flex items-center space-x-3 mb-5 border-b pb-3" style="border-color: var(--color-saffron);">
+                    <i data-lucide="shield" class="h-6 w-6 text-orange-600"></i>
+                    <h2 class="text-xl font-bold text-gray-700">System Administrator Portal</h2>
+                </div>
+                <!-- Feature Icons -->
+                <div class="grid grid-cols-3 gap-4 mb-6 text-center text-gray-600">
+                    <div class="p-2 rounded-lg bg-orange-50">
+                        <i data-lucide="bar-chart-3" class="h-6 w-6 mx-auto text-orange-700 mb-1"></i>
+                        <p class="text-xs font-medium">Analytics</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-orange-50">
+                        <i data-lucide="monitor" class="h-6 w-6 mx-auto text-orange-700 mb-1"></i>
+                        <p class="text-xs font-medium">System Monitoring</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-orange-50">
+                        <i data-lucide="users" class="h-6 w-6 mx-auto text-orange-700 mb-1"></i>
+                        <p class="text-xs font-medium">User Management</p>
+                    </div>
+                </div>
+
+                <!-- Demo Credentials Hint for Admin -->
+                <div class="mb-6 p-3 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 text-sm">
+                    <p class="font-bold mb-1 flex items-center"><i data-lucide="key" class="h-4 w-4 mr-2"></i> Demo Login Hint</p>
+                    <p><span class="font-semibold">Email ID:</span> <code>admin@gmail.com</code></p>
+                    <p><span class="font-semibold">Password:</span> <code>pass123</code></p>
+                </div>
+                
+                <!-- Form -->
+                <form onsubmit="handleLogin(event, 'Admin', 'pages/admin/admin.html')">
+                    <div class="mb-4">
+                        <label for="admin-id" class="block text-sm font-medium text-gray-700">Admin Email ID</label>
+                        <input type="email" id="admin-id" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-indigo-500 transition duration-150" placeholder="Enter Admin Email ID" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="admin-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="admin-password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-indigo-500 transition duration-150" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="glow-button w-full text-lg py-3 rounded-xl text-white font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition duration-300">
+                        Authorize Access
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Dynamic Message Area -->
+            <div id="message-box" class="mt-6 text-center text-sm p-3 rounded-lg hidden transition duration-300" role="alert"></div>
+
+        </div> <!-- End Login Forms Container -->
+
+    </div> <!-- End Login Card Container -->
+
+    <!-- Tagline at the Bottom -->
+    <footer class="mt-6 text-center text-xs sm:text-sm font-medium text-gray-600 max-w-lg">
+        ‘Empowering SC Communities through Digital Inclusion – PM-AJAY GIA’
+    </footer>
+
+    <!-- Link to external JavaScript -->
+    <script src="login.js"></script>
+</body>
+</html>

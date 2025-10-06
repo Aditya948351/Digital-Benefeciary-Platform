@@ -31,11 +31,12 @@
             align-items: center;
             flex-wrap: wrap;
         }
-
+   
 .logo-section {
     display: flex;
     align-items: center;
     gap: 10px;
+    /* n */
 }        
 
 .logo {
